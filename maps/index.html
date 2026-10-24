@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrabah Map</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: #172c2a;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        #viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            cursor: grab;
+            touch-action: none;
+            background-color: #172c2a;
+            background-image:
+                radial-gradient(ellipse at 50% 48%, rgba(74, 108, 80, 0.32), transparent 68%),
+                repeating-radial-gradient(ellipse at 50% 48%, transparent 0 55px, rgba(230, 204, 143, 0.075) 56px 57px, transparent 58px 112px),
+                linear-gradient(rgba(193, 213, 182, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(193, 213, 182, 0.045) 1px, transparent 1px);
+            background-size: auto, auto, 56px 56px, 56px 56px;
+        }
+
+        #viewport:active {
+            cursor: grabbing;
+        }
+
+        #world {
+            position: absolute;
+            transform-origin: 0 0;
+            will-change: transform;
+        }
+
+        #map-image {
+            display: block;
+            max-width: none;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        #markers {
+            position: absolute;
+            inset: 0;
+        }
+
+        .map-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            padding: 0;
+            transform: translate(-50%, -50%);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: #e34d3d;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+        }
+
+        .map-point:hover,
+        .map-point:focus-visible {
+            outline: 2px solid #222;
+            outline-offset: 2px;
+            z-index: 2;
+        }
+
+        .map-point.small-building {
+            display: none;
+            background: #ffd34e;
+        }
+
+        .map-point.location-street {
+            background: #66c6c2;
+            border-color: #e5ffff;
+            border-radius: 3px;
+        }
+
+        .map-point.location-district {
+            background: #72ad68;
+            border-color: #efffea;
+            border-radius: 3px;
+        }
+
+        .map-point.location-square {
+            background: #e8bf62;
+            border-color: #fff4d4;
+            border-radius: 2px;
+        }
+
+        .map-point.has-label::after {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 50%;
+            display: block;
+            width: max-content;
+            max-width: 180px;
+            padding: 3px 6px;
+            overflow: hidden;
+            color: #fff;
+            background: rgba(18, 30, 28, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 3px;
+            content: attr(data-name);
+            font-size: 10px;
+            line-height: 1.2;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        #location-search {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 20;
+            width: min(310px, calc(100vw - 32px));
+        }
+
+        #search-input {
+            width: 100%;
+            height: 42px;
+            padding: 0 13px;
+            color: #fff;
+            background: rgba(18, 30, 28, 0.96);
+            border: 1px solid rgba(230, 204, 143, 0.42);
+            border-radius: 7px;
+            outline: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        #search-input::placeholder {
+            color: #c2c9bd;
+        }
+
+        #search-input:focus {
+            border-color: #f5d783;
+            box-shadow: 0 0 0 2px rgba(245, 215, 131, 0.22), 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        #search-results {
+            display: grid;
+            gap: 2px;
+            max-height: min(50vh, 360px);
+            overflow-y: auto;
+            margin-top: 6px;
+            padding: 5px;
+            background: rgba(18, 30, 28, 0.97);
+            border: 1px solid rgba(230, 204, 143, 0.3);
+            border-radius: 7px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        #search-results[hidden],
+        #building-info[hidden] {
+            display: none;
+        }
+
+        .search-result {
+            display: grid;
+            gap: 3px;
+            width: 100%;
+            padding: 9px 10px;
+            text-align: left;
+            color: #fff;
+            background: transparent;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-result:hover,
+        .search-result:focus-visible {
+            background: rgba(230, 204, 143, 0.14);
+            outline: none;
+        }
+
+        .search-result span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .search-result small,
+        .search-empty {
+            color: #bac4b8;
+            font-size: 11px;
+        }
+
+        .search-empty {
+            padding: 10px;
+        }
+
+        #building-info {
+            position: absolute;
+            top: 68px;
+            left: 16px;
+            z-index: 15;
+            width: min(260px, calc(100vw - 32px));
+            padding: 12px 14px;
+            color: #fff;
+            background: rgba(24, 28, 24, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 8px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.45);
+        }
+
+        #building-info h2 {
+            margin: 0 0 5px;
+            color: #ffd34e;
+            font-size: 15px;
+        }
+
+        #building-info-type {
+            margin: 0 0 5px;
+            color: #a9d5cb;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        #building-info-description {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .zoom-button {
+            display: grid;
+            width: 44px;
+            height: 44px;
+            place-items: center;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 7px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .zoom-button:hover {
+            background: rgba(50, 50, 50, 0.95);
+        }
+
+        #copyright {
+            position: absolute;
+            bottom: 18px;
+            left: 16px;
+            z-index: 10;
+            padding: 8px 11px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 6px;
+            font-size: 11px;
+            line-height: 1.5;
+            pointer-events: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (max-width: 500px) {
+            .zoom-controls {
+                right: 14px;
+                bottom: 14px;
+            }
+
+            #copyright {
+                bottom: 14px;
+                left: 12px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main id="viewport" aria-label="Interactive Agrabah map">
+        <div id="world">
+            <img id="map-image" src="map.png" alt="Agrabah map" draggable="false">
+            <div id="markers" aria-label="Map locations"></div>
+        </div>
+    </main>
+
+    <div id="location-search">
+        <input id="search-input" type="search" placeholder="Search locations..." autocomplete="off" aria-label="Search locations" aria-controls="search-results">
+        <div id="search-results" role="listbox" aria-label="Location search results" hidden></div>
+    </div>
+
+    <section id="building-info" role="status" aria-live="polite" hidden>
+        <h2 id="building-info-title"></h2>
+        <p id="building-info-type"></p>
+        <p id="building-info-description"></p>
+    </section>
+
+    <div class="zoom-controls">
+        <button class="zoom-button" id="zoom-in" type="button" aria-label="Zoom in">+</button>
+        <button class="zoom-button" id="zoom-out" type="button" aria-label="Zoom out">−</button>
+    </div>
+
+    <footer id="copyright">
+        <div>Copyright AgraMaps 2026</div>
+        <div>Maps as of 10/24/2026</div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewport = document.getElementById('viewport');
+            const world = document.getElementById('world');
+            const image = document.getElementById('map-image');
+            const markerLayer = document.getElementById('markers');
+            const infoBox = document.getElementById('building-info');
+            const infoTitle = document.getElementById('building-info-title');
+            const infoType = document.getElementById('building-info-type');
+            const infoDescription = document.getElementById('building-info-description');
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            const MIN_ZOOM = 0.8;
+            const MAX_ZOOM = 4;
+            let scale = 1.5;
+            let panX = 0;
+            let panY = 0;
+            let locations = [];
+            let activeLabelId = null;
+            let selectedLocationId = null;
+            let lastPayload = '';
+            let gesture = null;
+            const pointers = new Map();
+
+            image.addEventListener('load', initialize, { once: true });
+            if (image.complete && image.naturalWidth) initialize();
+
+            function initialize() {
+                resetView();
+                setupEvents();
+                loadLocations();
+            }
+
+            function resetView() {
+                scale = 1.5;
+                panX = (viewport.clientWidth - image.naturalWidth * scale) / 2;
+                panY = (viewport.clientHeight - image.naturalHeight * scale) / 2;
+                constrainPan();
+                updateTransform();
+            }
+
+            function constrainPan() {
+                const width = image.naturalWidth * scale;
+                const height = image.naturalHeight * scale;
+                const viewportWidth = viewport.clientWidth;
+                const viewportHeight = viewport.clientHeight;
+                const minX = width < viewportWidth ? (viewportWidth - width) / 2 : viewportWidth - width - viewportWidth / 2;
+                const maxX = width < viewportWidth ? minX : viewportWidth / 2;
+                const minY = height < viewportHeight ? (viewportHeight - height) / 2 : viewportHeight - height - viewportHeight / 2;
+                const maxY = height < viewportHeight ? minY : viewportHeight / 2;
+                panX = Math.min(Math.max(panX, minX), maxX);
+                panY = Math.min(Math.max(panY, minY), maxY);
+            }
+
+            function updateTransform(animate = false) {
+                world.style.transition = animate ? 'transform 0.2s cubic-bezier(0.2, 0, 0.2, 1)' : 'none';
+                world.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+                markerLayer.querySelectorAll('.map-point').forEach(marker => {
+                    const pointSize = marker.classList.contains('small-building') ? 10 : 12;
+                    marker.style.width = `${pointSize / scale}px`;
+                    marker.style.height = `${pointSize / scale}px`;
+                    marker.style.borderWidth = `${1 / scale}px`;
+                    marker.style.display = marker.classList.contains('small-building') && scale < 2 ? 'none' : 'block';
+                    marker.classList.toggle('has-label', marker.dataset.id === activeLabelId);
+                });
+            }
+
+            async function loadLocations() {
+                try {
+                    const response = await fetch('locations.json', { cache: 'no-store' });
+                    if (!response.ok) throw new Error('Could not load map locations.');
+                    const nextLocations = await response.json();
+                    const payload = JSON.stringify(nextLocations);
+                    if (payload === lastPayload) return;
+                    lastPayload = payload;
+                    locations = nextLocations.map(location => ({ ...location, type: location.type || 'building' }));
+                    renderLocations();
+                    if (searchInput.value.trim()) renderSearchResults();
+                } catch (error) {
+                    console.error(error);
+                    searchResults.replaceChildren();
+                    const message = document.createElement('div');
+                    message.className = 'search-empty';
+                    message.textContent = 'Locations could not be loaded.';
+                    searchResults.appendChild(message);
+                }
+            }
+
+            function renderLocations() {
+                markerLayer.replaceChildren();
+                locations.forEach(location => {
+                    const marker = document.createElement('button');
+                    marker.type = 'button';
+                    marker.className = `map-point location-${location.type}${location.small && location.type === 'building' ? ' small-building' : ''}`;
+                    marker.dataset.id = location.id;
+                    marker.dataset.name = location.name || location.type;
+                    marker.style.left = `${location.x}%`;
+                    marker.style.top = `${location.y}%`;
+                    marker.setAttribute('aria-label', location.name || location.type);
+                    marker.addEventListener('click', event => {
+                        event.stopPropagation();
+                        showLocation(location);
+                    });
+                    markerLayer.appendChild(marker);
+                });
+                updateTransform();
+                if (selectedLocationId && !locations.some(location => location.id === selectedLocationId)) {
+                    selectedLocationId = null;
+                    activeLabelId = null;
+                    infoBox.hidden = true;
+                }
+            }
+
+            function showLocation(location) {
+                selectedLocationId = location.id;
+                activeLabelId = location.id;
+                infoTitle.textContent = location.name || 'Location';
+                infoType.textContent = location.type;
+                infoDescription.textContent = location.info || 'No information is available for this location yet.';
+                infoBox.hidden = false;
+                updateTransform();
+            }
+
+            function normalizeText(value) {
+                return (value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+            }
+
+            function editDistance(first, second) {
+                const row = Array.from({ length: second.length + 1 }, (_, index) => index);
+                for (let i = 1; i <= first.length; i++) {
+                    let diagonal = row[0];
+                    row[0] = i;
+                    for (let j = 1; j <= second.length; j++) {
+                        const above = row[j];
+                        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, diagonal + (first[i - 1] === second[j - 1] ? 0 : 1));
+                        diagonal = above;
+                    }
+                }
+                return row[second.length];
+            }
+
+            function scoreText(query, value) {
+                const text = normalizeText(value);
+                if (!text) return 0;
+                if (text === query) return 1000;
+                if (text.startsWith(query)) return 850;
+                if (text.includes(query)) return 700;
+                let bestScore = 0;
+                for (const queryWord of query.split(/\s+/)) {
+                    for (const textWord of text.split(/\s+/)) {
+                        const longest = Math.max(queryWord.length, textWord.length);
+                        if (longest < 3) continue;
+                        const similarity = 1 - editDistance(queryWord, textWord) / longest;
+                        bestScore = Math.max(bestScore, similarity * 500);
+                    }
+                }
+                return bestScore >= 250 ? bestScore : 0;
+            }
+
+            function renderSearchResults() {
+                const query = normalizeText(searchInput.value);
+                searchResults.replaceChildren();
+                if (!query) {
+                    searchResults.hidden = true;
+                    return;
+                }
+
+                const matches = locations
+                    .map(location => ({
+                        location,
+                        score: Math.max(scoreText(query, location.name), scoreText(query, location.info) * 0.65)
+                    }))
+                    .filter(match => match.score > 0)
+                    .sort((first, second) => second.score - first.score)
+                    .slice(0, 8);
+
+                if (!matches.length) {
+                    const empty = document.createElement('div');
+                    empty.className = 'search-empty';
+                    empty.textContent = locations.length ? 'No similar locations found.' : 'No saved locations.';
+                    searchResults.appendChild(empty);
+                } else {
+                    matches.forEach(({ location }) => {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'search-result';
+                        button.setAttribute('role', 'option');
+                        const name = document.createElement('span');
+                        name.textContent = location.name || 'Location';
+                        const detail = document.createElement('small');
+                        detail.textContent = location.info ? `${location.type} · ${location.info}` : location.type;
+                        button.append(name, detail);
+                        button.addEventListener('click', () => focusLocation(location));
+                        searchResults.appendChild(button);
+                    });
+                }
+                searchResults.hidden = false;
+            }
+
+            function focusLocation(location) {
+                scale = Math.min(MAX_ZOOM, Math.max(scale, location.small ? 2.4 : 2));
+                const pointX = image.naturalWidth * location.x / 100;
+                const pointY = image.naturalHeight * location.y / 100;
+                panX = viewport.clientWidth / 2 - pointX * scale;
+                panY = viewport.clientHeight / 2 - pointY * scale;
+                constrainPan();
+                updateTransform(true);
+                showLocation(location);
+                searchInput.value = location.name || '';
+                searchResults.hidden = true;
+                searchInput.blur();
+            }
+
+            function zoomAt(clientX, clientY, factor) {
+                const nextScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * factor));
+                if (nextScale === scale) return;
+                const rect = viewport.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                const ratio = nextScale / scale;
+                panX = x - (x - panX) * ratio;
+                panY = y - (y - panY) * ratio;
+                scale = nextScale;
+                constrainPan();
+                updateTransform();
+            }
+
+            function setupEvents() {
+                viewport.addEventListener('contextmenu', event => event.preventDefault());
+                viewport.addEventListener('dragstart', event => event.preventDefault());
+                document.addEventListener('selectstart', event => {
+                    if (event.target.closest('#viewport')) event.preventDefault();
+                }, true);
+
+                document.addEventListener('pointerdown', event => {
+                    const clickedMarker = event.target.closest('.map-point');
+                    if (!infoBox.contains(event.target) && !clickedMarker) infoBox.hidden = true;
+                    if (!clickedMarker && activeLabelId) {
+                        activeLabelId = null;
+                        updateTransform();
+                    }
+                    if (!event.target.closest('#location-search')) searchResults.hidden = true;
+                });
+
+                searchInput.addEventListener('input', renderSearchResults);
+                searchInput.addEventListener('keydown', event => {
+                    if (event.key === 'ArrowDown') {
+                        const firstResult = searchResults.querySelector('.search-result');
+                        if (firstResult) {
+                            event.preventDefault();
+                            firstResult.focus();
+                        }
+                    } else if (event.key === 'Escape') {
+                        searchResults.hidden = true;
+                        searchInput.blur();
+                    }
+                });
+
+                viewport.addEventListener('pointerdown', event => {
+                    if (event.button !== 0 || event.target.closest('.map-point')) return;
+                    event.preventDefault();
+                    viewport.setPointerCapture(event.pointerId);
+                    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                    if (pointers.size === 1) {
+                        gesture = { type: 'pan', x: event.clientX, y: event.clientY, panX, panY };
+                    } else if (pointers.size === 2) {
+                        const [first, second] = [...pointers.values()];
+                        const centerX = (first.x + second.x) / 2;
+                        const centerY = (first.y + second.y) / 2;
+                        const rect = viewport.getBoundingClientRect();
+                        gesture = {
+                            type: 'pinch',
+                            distance: Math.hypot(first.x - second.x, first.y - second.y),
+                            scale,
+                            anchorX: (centerX - rect.left - panX) / scale,
+                            anchorY: (centerY - rect.top - panY) / scale
+                        };
+                    }
+                });
+
+                viewport.addEventListener('pointermove', event => {
+                    if (!pointers.has(event.pointerId)) return;
+                    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                    if (pointers.size > 1 && gesture?.type === 'pinch') {
+                        const [first, second] = [...pointers.values()];
+                        const centerX = (first.x + second.x) / 2;
+                        const centerY = (first.y + second.y) / 2;
+                        const rect = viewport.getBoundingClientRect();
+                        const distance = Math.hypot(first.x - second.x, first.y - second.y);
+                        scale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, gesture.scale * distance / gesture.distance));
+                        panX = centerX - rect.left - gesture.anchorX * scale;
+                        panY = centerY - rect.top - gesture.anchorY * scale;
+                    } else if (gesture?.type === 'pan') {
+                        panX = gesture.panX + event.clientX - gesture.x;
+                        panY = gesture.panY + event.clientY - gesture.y;
+                    }
+                    constrainPan();
+                    updateTransform();
+                });
+
+                const endPointer = event => {
+                    pointers.delete(event.pointerId);
+                    gesture = null;
+                    constrainPan();
+                    updateTransform();
+                };
+                viewport.addEventListener('pointerup', endPointer);
+                viewport.addEventListener('pointercancel', endPointer);
+
+                viewport.addEventListener('wheel', event => {
+                    event.preventDefault();
+                    zoomAt(event.clientX, event.clientY, event.deltaY < 0 ? 1.15 : 0.85);
+                }, { passive: false });
+
+                document.getElementById('zoom-in').addEventListener('click', () => {
+                    const rect = viewport.getBoundingClientRect();
+                    zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, 1.3);
+                });
+                document.getElementById('zoom-out').addEventListener('click', () => {
+                    const rect = viewport.getBoundingClientRect();
+                    zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, 0.7);
+                });
+                window.addEventListener('resize', () => {
+                    constrainPan();
+                    updateTransform();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

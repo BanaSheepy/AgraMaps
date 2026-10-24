@@ -1,0 +1,524 @@
+[
+    {
+        "id": "f3ace1d4-39e6-430a-abd4-ded5ce2a82f0",
+        "name": "Palace",
+        "info": "Great palace of Agrabah.",
+        "type": "building",
+        "x": 45.89665059402672,
+        "y": 16.07995421891002,
+        "small": false
+    },
+    {
+        "id": "0fdba6db-8fc7-41c0-8409-40e3bc8ccdb5",
+        "name": "Arena",
+        "info": "Fight to da Death n shii.",
+        "type": "building",
+        "x": 28.9515806322529,
+        "y": 44.559585492227974,
+        "small": false
+    },
+    {
+        "id": "aad20f65-8b92-4e38-948e-1d6812665043",
+        "name": "Sweets & Co Bakery",
+        "info": "Peak bakery owned by Sheepy<3",
+        "type": "building",
+        "x": 64.32441974448855,
+        "y": 35.15878943032432,
+        "small": true
+    },
+    {
+        "id": "c72e8b8f-79cb-42f7-9307-70547f94e66d",
+        "name": "Andre Sushi",
+        "info": "",
+        "type": "building",
+        "x": 57.19557197733187,
+        "y": 33.57253355348247,
+        "small": true
+    },
+    {
+        "id": "9e2895c4-e467-4dd7-9eca-11cf16786771",
+        "name": "Skibidi Shanties",
+        "info": "Lemon Laundry\n2 Flats.",
+        "type": "building",
+        "x": 59.47648434227786,
+        "y": 33.022015418767445,
+        "small": true
+    },
+    {
+        "id": "48ead238-92f6-4fa7-ae28-2ace8b6ff6ee",
+        "name": "Hoi Hoi Housing",
+        "info": "Flat 111A-111C\nMcDonalds.",
+        "type": "building",
+        "x": 61.5773246784123,
+        "y": 32.79533148094362,
+        "small": true
+    },
+    {
+        "id": "c2cac9cd-1cf1-45b7-9730-a2543b3fdf52",
+        "name": "Lemon Square",
+        "info": "",
+        "type": "square",
+        "x": 57.646507237164904,
+        "y": 37.35073574089359,
+        "small": false
+    },
+    {
+        "id": "e59f6277-7507-4ae7-abb1-6e8089756874",
+        "name": "Aladeen Avenue",
+        "info": "",
+        "type": "street",
+        "x": 66.5278093831835,
+        "y": 37.42150057163453,
+        "small": false
+    },
+    {
+        "id": "3c3a6a51-96f0-4f63-ab43-2b5b1eefc81c",
+        "name": "Agrabah Jobsite",
+        "info": "Featuring:\nWall of messages from Friends.",
+        "type": "building",
+        "x": 68.72594442461545,
+        "y": 35.22442570292853,
+        "small": false
+    },
+    {
+        "id": "9ac5a6b2-51b7-4266-af7d-bb91bf9f2f82",
+        "name": "Aris Bookstore",
+        "info": "",
+        "type": "building",
+        "x": 63.854260581231635,
+        "y": 41.243388388904286,
+        "small": false
+    },
+    {
+        "id": "cd963ba3-7aa8-4555-95a4-a2288a53b6a3",
+        "name": "Arislk Square",
+        "info": "",
+        "type": "square",
+        "x": 67.24561712384867,
+        "y": 45.09701533190947,
+        "small": false
+    },
+    {
+        "id": "4a1de793-70ec-411d-8e14-7f59488c38cd",
+        "name": "Trap & Femboy Cafe",
+        "info": "Building is 18+",
+        "type": "building",
+        "x": 69.11464267331837,
+        "y": 43.114619754531894,
+        "small": true
+    },
+    {
+        "id": "24360db2-f2df-49e1-ac07-22c44e093ae1",
+        "name": "Mangrove Milkyway",
+        "info": "",
+        "type": "building",
+        "x": 69.23469069252606,
+        "y": 39.84389436593086,
+        "small": true
+    },
+    {
+        "id": "35dced38-6b4d-451a-8247-9efbcf000ad9",
+        "name": "Persia Embassy",
+        "info": "",
+        "type": "building",
+        "x": 76.17095418609077,
+        "y": 35.94696314342461,
+        "small": true
+    },
+    {
+        "id": "0fdef523-aada-4b88-95a5-f9da29281e08",
+        "name": "Cocoa Farm",
+        "info": "",
+        "type": "building",
+        "x": 72.02489587003733,
+        "y": 39.031078178475234,
+        "small": true
+    },
+    {
+        "id": "bad6a208-77b3-4a03-91b9-9a5f60bc0c63",
+        "name": "Sheep Farm",
+        "info": "",
+        "type": "building",
+        "x": 77.7414308209595,
+        "y": 40.725646879052505,
+        "small": true
+    },
+    {
+        "id": "0ffaddf4-3784-45f1-8668-8040d9491da0",
+        "name": "Agrabah - Lagash Border",
+        "info": "",
+        "type": "district",
+        "x": 84.52588988359241,
+        "y": 45.36876511863422,
+        "small": false
+    },
+    {
+        "id": "b63fe3cc-d4b6-4fda-a588-da1373f836ea",
+        "name": "Lagash",
+        "info": "Town of Lagash\n(Sumer Territory)\nThis is NOT Agrabah.",
+        "type": "district",
+        "x": 90.41616646658663,
+        "y": 39.55094991364421,
+        "small": false
+    },
+    {
+        "id": "b968366b-05c6-467f-92ec-bd7dae5636ae",
+        "name": "Farms",
+        "info": "This is a farm. It has cows..",
+        "type": "building",
+        "x": 76.99854786221661,
+        "y": 45.19492303847066,
+        "small": false
+    },
+    {
+        "id": "8c52c00a-dec2-481a-87d8-9aed1c58aa95",
+        "name": "Bamboo Factory",
+        "info": "",
+        "type": "building",
+        "x": 75.52045220586959,
+        "y": 49.620737762331295,
+        "small": true
+    },
+    {
+        "id": "a349a4f9-07c2-4649-bec8-a1ddd202efd3",
+        "name": "Cactus Farm",
+        "info": "",
+        "type": "building",
+        "x": 76.66597633953853,
+        "y": 55.92054610800679,
+        "small": true
+    },
+    {
+        "id": "2a5642b9-6f25-440c-a06a-07284cfe185d",
+        "name": "Andariyen Street",
+        "info": "",
+        "type": "street",
+        "x": 80.40242070458564,
+        "y": 52.71363793916347,
+        "small": false
+    },
+    {
+        "id": "bdd3e9cf-7416-45e2-9d9e-ad14eecaedd0",
+        "name": "Chicken Farm",
+        "info": "",
+        "type": "building",
+        "x": 81.83893310717355,
+        "y": 53.407067586458524,
+        "small": true
+    },
+    {
+        "id": "95fdb1fb-6412-4794-b493-9f4f7d34bf70",
+        "name": "Wheat Farm",
+        "info": "",
+        "type": "building",
+        "x": 82.40597747661614,
+        "y": 49.45043959895149,
+        "small": false
+    },
+    {
+        "id": "efede270-2637-456c-9fed-9fdcb05bb810",
+        "name": "AgraLectric Inc",
+        "info": "Electronics Store",
+        "type": "building",
+        "x": 66.40304782762193,
+        "y": 47.697847987174875,
+        "small": true
+    },
+    {
+        "id": "a1200709-785f-4ff1-a579-9239b00e2b22",
+        "name": "Agrabah Old Station",
+        "info": "",
+        "type": "building",
+        "x": 66.81888036521316,
+        "y": 49.77813692906001,
+        "small": false
+    },
+    {
+        "id": "8f1c11d4-360a-4865-9434-4065c241155c",
+        "name": "Old Agrabah Bazaar",
+        "info": "",
+        "type": "square",
+        "x": 61.514339767619,
+        "y": 53.459540917709035,
+        "small": false
+    },
+    {
+        "id": "59d62ea8-eab4-4bb1-ba89-66ce1f5f794c",
+        "name": "Agrabah Beehouse",
+        "info": "",
+        "type": "building",
+        "x": 61.360779462976076,
+        "y": 47.24079062109722,
+        "small": false
+    },
+    {
+        "id": "46adee78-e228-48d0-97c4-a8adfaefe36e",
+        "name": "Couples Museum",
+        "info": "",
+        "type": "building",
+        "x": 57.25573830138627,
+        "y": 43.0223113617778,
+        "small": false
+    },
+    {
+        "id": "f7d00a5d-b790-46b3-8d12-64ea25b73e58",
+        "name": "Goldi's Hospital",
+        "info": "",
+        "type": "building",
+        "x": 51.97782823648508,
+        "y": 41.33491965805004,
+        "small": false
+    },
+    {
+        "id": "5e14b90e-b526-4fd7-8f8a-dc031a28f866",
+        "name": "Courthouse",
+        "info": "",
+        "type": "building",
+        "x": 53.49278390326228,
+        "y": 47.82083151925364,
+        "small": false
+    },
+    {
+        "id": "dd6d3708-c16a-4d3b-bee5-9e5f31e5ea9d",
+        "name": "Agrabah Station Central",
+        "info": "",
+        "type": "building",
+        "x": 44.06917703680177,
+        "y": 47.96928983766613,
+        "small": false
+    },
+    {
+        "id": "a068d784-bcae-43ae-acc2-d01f7b245400",
+        "name": "Sonion Avenue",
+        "info": "",
+        "type": "street",
+        "x": 51.338382188908916,
+        "y": 50.65264446710973,
+        "small": false
+    },
+    {
+        "id": "993f3a86-7637-4a6a-a3a3-5cf09e46a7a2",
+        "name": "Kirkmuseum",
+        "info": "",
+        "type": "building",
+        "x": 49.448653923313586,
+        "y": 52.62137870271566,
+        "small": true
+    },
+    {
+        "id": "712bcf9b-b213-4708-96c7-f1ae7e1bb739",
+        "name": "Little Italian Heritage",
+        "info": "",
+        "type": "building",
+        "x": 50.33300951558727,
+        "y": 55.484078994285504,
+        "small": true
+    },
+    {
+        "id": "8be582ac-63c4-4087-9928-aecf129753c5",
+        "name": "Panda Street",
+        "info": "",
+        "type": "street",
+        "x": 48.65738839338451,
+        "y": 57.54321429173048,
+        "small": false
+    },
+    {
+        "id": "accb8ce7-7f5c-4bc7-9396-692db654deac",
+        "name": "Albert Heijn",
+        "info": "",
+        "type": "building",
+        "x": 50.98463995199944,
+        "y": 60.30546895903471,
+        "small": false
+    },
+    {
+        "id": "a33f04bd-31c6-43e8-841a-7e929ae7fc04",
+        "name": "102 Panda St",
+        "info": "",
+        "type": "building",
+        "x": 47.70463911186877,
+        "y": 59.96826464959031,
+        "small": true
+    },
+    {
+        "id": "a68df7bf-7172-4686-9d7a-1b6059c5fcf3",
+        "name": "Gardens of Akkad",
+        "info": "",
+        "type": "building",
+        "x": 43.44893090366538,
+        "y": 52.45623104030079,
+        "small": false
+    },
+    {
+        "id": "7ff03d80-144b-4dac-8dd9-54f5fa43ee52",
+        "name": "Affordables Rhodes",
+        "info": "",
+        "type": "building",
+        "x": 40.95793450510595,
+        "y": 59.96918440817643,
+        "small": false
+    },
+    {
+        "id": "2d099163-18e3-4b49-9d2f-ac937c9488c0",
+        "name": "Farm",
+        "info": "Wheat Farm",
+        "type": "building",
+        "x": 40.47774242827522,
+        "y": 55.467889071388875,
+        "small": false
+    },
+    {
+        "id": "6cdf35cd-6db1-4279-a0e8-41302d04e3d0",
+        "name": "Rosecity Residence",
+        "info": "Flats 102A1-102A6",
+        "type": "building",
+        "x": 36.921671109049385,
+        "y": 59.11118527507394,
+        "small": false
+    },
+    {
+        "id": "f336c981-0ded-438d-8db0-73168ad573b4",
+        "name": "Bitum Street",
+        "info": "",
+        "type": "street",
+        "x": 39.07193076512024,
+        "y": 58.689337349142,
+        "small": false
+    },
+    {
+        "id": "67c5a7fd-e395-4ba9-ab8e-c473afedf000",
+        "name": "Obama Apartments",
+        "info": "Flats 107A1-107C4",
+        "type": "building",
+        "x": 35.60219359282409,
+        "y": 64.54247732144768,
+        "small": false
+    },
+    {
+        "id": "4597e933-a524-442b-bf9a-552d9675d78e",
+        "name": "Euphrates Street",
+        "info": "",
+        "type": "street",
+        "x": 34.494721908909796,
+        "y": 67.33635157214512,
+        "small": false
+    },
+    {
+        "id": "d264f910-7977-44e7-9803-eec29ee344e3",
+        "name": "The Semiouter Boulevard",
+        "info": "",
+        "type": "street",
+        "x": 30.724695090929426,
+        "y": 61.2578541014898,
+        "small": false
+    },
+    {
+        "id": "98811377-0815-4c9d-9827-c9c7546b8576",
+        "name": "Resident Shops",
+        "info": "",
+        "type": "building",
+        "x": 22.53463683117896,
+        "y": 62.94113032413281,
+        "small": false
+    },
+    {
+        "id": "357f1e6d-5520-47d0-ab11-904f27697f45",
+        "name": "Jokowi Heights",
+        "info": "Flat 002A1-002A7",
+        "type": "building",
+        "x": 33.23804630291634,
+        "y": 60.69676202727546,
+        "small": false
+    },
+    {
+        "id": "32315261-1070-49a8-b150-2233fc3f4ee2",
+        "name": "Qamar Bank",
+        "info": "",
+        "type": "building",
+        "x": 26.0775165061294,
+        "y": 55.84536338755327,
+        "small": false
+    },
+    {
+        "id": "80817428-3ed4-43ce-90ae-3b02219c2544",
+        "name": "Plaza of Sumer",
+        "info": "",
+        "type": "square",
+        "x": 22.447969548007,
+        "y": 66.86877484363319,
+        "small": false
+    },
+    {
+        "id": "851eed23-6c08-490f-a71e-4c3e2828a1d8",
+        "name": "Akira Maparts",
+        "info": "",
+        "type": "building",
+        "x": 25.307989892681764,
+        "y": 61.07082341008502,
+        "small": false
+    },
+    {
+        "id": "ca5219f2-cf2c-4b08-9657-7c6129ae70c2",
+        "name": "Guardian Statue",
+        "info": "",
+        "type": "building",
+        "x": 53.269023274930404,
+        "y": 63.13931364767843,
+        "small": false
+    },
+    {
+        "id": "8d07da11-4e83-4a3e-8f08-60302b60a99a",
+        "name": "Old District",
+        "info": "",
+        "type": "district",
+        "x": 55.08659645282729,
+        "y": 63.24369896941644,
+        "small": false
+    },
+    {
+        "id": "0937f349-21a6-46bf-84b4-bbad383a0303",
+        "name": "New District",
+        "info": "",
+        "type": "district",
+        "x": 51.72525191501216,
+        "y": 63.3408492284838,
+        "small": false
+    },
+    {
+        "id": "daf38056-cf3f-4b0c-bf33-552368c73b80",
+        "name": "Ur/Wilderness",
+        "info": "",
+        "type": "district",
+        "x": 53.34590017431587,
+        "y": 64.60380259635944,
+        "small": false
+    },
+    {
+        "id": "a1df5be0-5afd-408f-9083-7cf6721e7bab",
+        "name": "Euphrates Bridge",
+        "info": "",
+        "type": "district",
+        "x": 54.24626031837351,
+        "y": 70.9185694357377,
+        "small": false
+    },
+    {
+        "id": "f1af6394-f499-4c8a-8e94-c5c954a52eb2",
+        "name": "Horse Racing Association HQ",
+        "info": "",
+        "type": "building",
+        "x": 30.609329231219434,
+        "y": 55.87774680724239,
+        "small": false
+    },
+    {
+        "id": "f82bf919-7827-449f-92e0-3126772454b5",
+        "name": "Spawn",
+        "info": "",
+        "type": "building",
+        "x": 22.1759558818797,
+        "y": 70.7741198642372,
+        "small": false
+    }
+]
